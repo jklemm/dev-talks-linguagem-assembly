@@ -8,6 +8,10 @@
 
 - Assembly é a língua que usamos para falar com os mais diversos tipos de hardwares, como os microprocessadores e microcontroladores.
 
+- Por ser pouco legível para humanos, e rodar muito próxima à Machine Language, Assembly é uma linguagem de baixo nível.
+
+![low level programming](http://image.slidesharecdn.com/chapter3instructionsetandassemblylanguageprogramming-140818225422-phpapp01/95/chapter-3-instruction-set-and-assembly-language-programming-6-638.jpg?cb=1408402702)
+
 ## Começando
 
 - Em níveis mais baixos, a máquina só entende os bits: valores lógicos 1 ou 0 (chamado código de máquina)
@@ -129,9 +133,22 @@ $ echo $?
 0
 ```
 
-## Instruções Assembly
+## Programando em Assembly
 
-### Section
+### Label
+
+- Nomeia uma porção de linhas de código, e permite a reutilização
+
+- Para executar as linhas contidas em uma label, basta escrever o nome da label
+
+```
+label:
+    ;aqui vem o código
+    ;que vai ser nomeado
+    ;de 'label'
+```
+
+### Section ou Segment
 
 Serve para particionar seu código em várias seções
 
@@ -161,13 +178,104 @@ _start:
   ;o programa começa a rodar aqui, a partir daqui
 ```
 
-### MOV
+### DEFINE
 
-Movimenta Destino, Origem
+Utilizamos a instrução DEFINE para alocar memória e inicializar com um valor
 
-### ADD
+| Tipo | Descrição         |  Tamanho alocado | Exemplo |
+|------|-------------------|------------------|---------|
+| DB   | Define Byte       | 1 byte           | `01010010`        |
+| DW   | Define Word       | 2 bytes          | `01010010 01010010`        |
+| DD   | Define Doubleword | 4 bytes          | `01010010 01110101 01010010 01110101` |
+| DQ   | Define Quadword   | 8 bytes          | `01010010 01010010 01110101 01010010 01010010 01010010 01110101 01010010` |
+| DT   | Define Ten        | 10 bytes         | `01010010 01110101 11011010 11011010 11011010 01110101 11111001 01010010 01010010 01010010` |
 
+Exemplos:
 
+Aloca a letra A na variável letra1
 
-### SUB
+```
+letra1  DB 'A'
+```
+
+Na tabela ASCII o valor de 'A', em hexadecimal é **41**
+
+```
+letra1  DB 41H
+```
+
+Em binário é **01000001**
+
+```
+letra1  DB 01000001B
+```
+
+### RESERVE
+
+Similar ao DEFINE, mas apenas alocamos memória, não inicializamos com valor
+
+| Tipo   | Descrição          | Tamanho alocado  |
+|--------|--------------------|------------------|
+| RESB   | Reserve Byte       | 1 byte           |
+| RESW   | Reserve Word       | 2 bytes          |
+| RESD   | Reserve Doubleword | 4 bytes          |
+| RESQ   | Reserve Quadword   | 8 bytes          |
+| REST   | Reserve Ten        | 10 bytes         |
+
+Exemplos:
+
+```
+variavel1  RESB  1     ; nesse caso, reservamos apenas 1 byte
+variavel2  RESB  2     ; aqui, reservamos 2 bytes
+variavel3  RESW  3     ; 3 palavras são reservadas, o que nos dá 3*2 = 6 bytes
+variavel4  REST  10    ; reservamos 10 unidades, de 10 bytes cada
+```
+
+### TIMES
+
+Multiplica quantas vezes deseja alocar o tipo escolhido
+
+Sintaxe:
+
+```
+nomeDoBloco       TIMES    numeroDeVezes    diretivaDEFINE    valorInicial
+```
+
+Variável vetor com 10 elementos do tipo Byte com o valor inicial de 0:
+
+```
+vetor       TIMES    10    DB    0
+```
+
+Variável array com 20 elementos do tipo Word com o valor inicial de FFH:
+
+```
+array       TIMES    20    DW    FFH
+```
+
+### Espaços contíguos de memória
+
+Os blocos na memória são alocados lado a lado, contíguos, como vizinhos.
+
+## Instruções básicas do Assembly
+
+As instruções básicas matemáticas e de movimentação de memória
+
+```
+INC COUNT        ; Increment the memory variable COUNT
+
+MOV TOTAL, 48    ; Transfer the value 48 in the 
+                 ; memory variable TOTAL
+					  
+ADD AH, BH       ; Add the content of the 
+                 ; BH register into the AH register
+					  
+AND MASK1, 128   ; Perform AND operation on the 
+                 ; variable MASK1 and 128
+					  
+ADD MARKS, 10    ; Add 10 to the variable MARKS
+MOV AL, 10       ; Transfer the value 10 to the AL register
+```
+
+[Registradores](https://www.tutorialspoint.com/assembly_programming/assembly_registers.htm)
 
