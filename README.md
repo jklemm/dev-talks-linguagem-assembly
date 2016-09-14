@@ -85,3 +85,89 @@
 
 - Depois disso, utilizamos o **Linker** para gerar um executável deste objeto (.EXE)
 
+- Grande maioria das linguagens utiliza esta forma de compilação.
+
+### Programação em microcontroladores
+
+![imagem1](http://cdn.mikroe.com/ebooks/sites/3/2016/01/25103659/pic-microcontrollers-programming-in-c-chapter-02-image-4.gif)
+
+### Código C compilado para Assembly
+
+![compilacao2](http://www.barrgroup.com/images/glossary/C_compiler.gif)
+
+### Linker utilizado para gerar executável
+
+![compilacao1](https://www.dartmouth.edu/~rc/classes/softdev_linux/Images/simple_compile.gif)
+
+## Compilando Assembly no Mac
+
+No Mac utilizamos o formato **Mach-O** 
+
+Montando o arquivo `hello.asm` para um arquivo objeto
+
+```
+$ nasm -f macho hello.asm
+```
+
+Link do arquivo objeto para produzir o executável hello.  Este passo é estranho porque geralmente o link server para linkar vários arquivos e bibliotecas, e aqui só temos um.
+
+```
+$ ld -o hello -e mystart hello.o
+```
+
+Rodar o executável gerado
+
+```
+$ ./hello
+hello, world
+```
+
+Ainda é possível checar o exit status no Bash
+
+```
+$ echo $?
+0
+```
+
+## Instruções Assembly
+
+### Section
+
+Serve para particionar seu código em várias seções
+
+`section .nomeDaSecao`
+
+Geralmente no Assembly utilizamos 3 seções:
+
+```
+section .dat
+  ;declaração e inicialização de dados
+ 
+section .bss
+  ;declaração sem inicialização das informações que serão usadas
+ 
+section .text
+  ;o programa começa a rodar aqui, a partir da _start
+```
+
+### Section start
+
+Para quem já usou C, C++ ou Java, a `_start` seria o `main()`
+
+```
+global _start
+ 
+_start:
+  ;o programa começa a rodar aqui, a partir daqui
+```
+
+### MOV
+
+Movimenta Destino, Origem
+
+### ADD
+
+
+
+### SUB
+
