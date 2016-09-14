@@ -35,5 +35,5 @@ mystart:
 
 section .data
 
-  mymsg db "hello, world", 0xa  ; string with a carriage-return
-  mylen equ $-mymsg             ; string length in bytes
+    mymsg db "hello, world", 0xa  ; string with a carriage-return
+    mylen equ $-mymsg             ; string length in bytes
